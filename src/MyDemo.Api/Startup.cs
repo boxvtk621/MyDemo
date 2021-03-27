@@ -1,9 +1,20 @@
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text.Json.Serialization;
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+
+using MyDemo.Api.Common;
+using MyDemo.Business.Common;
+
+using Newtonsoft.Json.Linq;
 
 namespace MyDemo.Api
 {
@@ -30,11 +41,27 @@ namespace MyDemo.Api
 		/// <param name="services"><see cref="IServiceCollection"/>.</param>
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllers();
+			services
+				.AddControllers(options => options.Filters.Add(new ApiExceptionFilter()))
+				.AddJsonOptions(options =>
+				{
+					options.JsonSerializerOptions.IgnoreNullValues = true;
+					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+				});
+
+			services.AddBusinessServices();
 			services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyDemo.Api", Version = "v1" });
-			});
+				{
+					var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+
+					c.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo Api", Version = "v1" });
+					c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
+
+					c.MapType<JToken>(() => new OpenApiSchema { Type = "object" });
+
+					c.SchemaGeneratorOptions.SchemaIdSelector = type => type.FullName;
+				})
+				.AddSwaggerGenNewtonsoftSupport();
 		}
 
 		/// <summary>
