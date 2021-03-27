@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MoDemo.Logger
+namespace MyDemo.Logger
 {
 	/// <summary>
 	/// Logs messages to a customizable sink.

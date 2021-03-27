@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MoDemo.Logger\MoDemo.Logger.csproj" />
+    <ProjectReference Include="..\MyDemo.Logger\MyDemo.Logger.csproj" />
     <ProjectReference Include="..\MyDemo.StyleCop\MyDemo.StyleCop.csproj">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

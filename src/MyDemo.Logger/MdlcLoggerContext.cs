@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-
 using JetBrains.Annotations;
-
 using NLog;
 
-namespace MoDemo.Logger
+namespace MyDemo.Logger
 {
 	/// <inheritdoc />
 	[UsedImplicitly]

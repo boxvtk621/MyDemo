@@ -10,11 +10,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using MoDemo.Logger;
-using MoDemo.Logger.Http;
 
 using MyDemo.Api.Common;
 using MyDemo.Business.Common;
+using MyDemo.Logger;
+using MyDemo.Logger.Correlation;
+using MyDemo.Logger.Http;
 
 using Newtonsoft.Json.Linq;
 
@@ -52,6 +53,8 @@ namespace MyDemo.Api
 					options.JsonSerializerOptions.IgnoreNullValues = true;
 					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 				});
+
+			services.AddCorrelationContext();
 			services.AddSingleton<ILoggerContext, MdlcLoggerContext>().AddTransient<ILogger>((Func<IServiceProvider, ILogger>)(provider => (ILogger)new NLogLogger(typeof(ILogger), provider.GetServices<ILoggerContext>()))).AddTransient(typeof(ILogger<>), typeof(NLogLogger<>));
 			services.AddSingleton<HttpLoggerMiddleware>();
 
@@ -84,6 +87,7 @@ namespace MyDemo.Api
 				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyDemo.Api v1"));
 			}
 
+			app.UseOperationContext();
 			app.UseMiddleware<HttpLoggerMiddleware>();
 
 			app.UseHttpsRedirection();

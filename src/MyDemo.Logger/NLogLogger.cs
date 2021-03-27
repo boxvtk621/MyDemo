@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-
 using NLog;
 
-namespace MoDemo.Logger
+namespace MyDemo.Logger
 {
 	/// <summary>
 	/// A logger that integrates with NLog, passing all messages to a <see cref="Logger"/>.

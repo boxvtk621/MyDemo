@@ -1,6 +1,6 @@
 using System;
 
-namespace MoDemo.Logger
+namespace MyDemo.Logger
 {
 	/// <summary>
 	/// Indicates that the marked method builds string by format pattern and (optional) arguments.

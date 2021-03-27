@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MoDemo.Logger
+namespace MyDemo.Logger
 {
 	/// <summary>
 	/// Контекст протоколирования.
