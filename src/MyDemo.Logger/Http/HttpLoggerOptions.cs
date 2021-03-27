@@ -13,6 +13,11 @@ namespace MyDemo.Logger.Http
 		public bool IsIncludeContent { get; set; }
 
 		/// <summary>
+		/// Настройка на случай отладочных работ, логгирует входные и выходные данные от WebApi.
+		/// </summary>
+		public bool IsDebugRequestData { get; set; }
+
+		/// <summary>
 		/// Если в http запросах используется Chunked, а знать, что внутри хочется.
 		/// </summary>
 		public bool IsBufferChunkedContent { get; set; }

@@ -5,6 +5,7 @@ using FluentValidation;
 using MediatR;
 
 using Microsoft.Extensions.DependencyInjection;
+using MyDemo.Core;
 
 namespace MyDemo.Business.Common
 {
@@ -42,6 +43,10 @@ namespace MyDemo.Business.Common
 			});
 
 			services.AddValidatorsFromAssemblyContaining<BusinessLayer>();
+
+			services
+				.AddHttpClient(nameof(DownloadHttpClient))
+				.AddTypedClient((client, servicesProvider) => new DownloadHttpClient());
 
 			return services;
 		}

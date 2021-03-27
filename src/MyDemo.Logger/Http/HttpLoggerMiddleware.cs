@@ -3,12 +3,15 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
 namespace MyDemo.Logger.Http
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Только для отладочных работ! В случае работы с файлами приводит в буферизации файлов в памяти.
+	/// </summary>
 	public class HttpLoggerMiddleware : IMiddleware
 	{
 		/// <summary>
@@ -36,7 +39,7 @@ namespace MyDemo.Logger.Http
 		/// <inheritdoc/>
 		public async Task InvokeAsync(HttpContext context, RequestDelegate next)
 		{
-			if (!_options.IsIncludeContent)
+			if (!_options.IsDebugRequestData)
 			{
 				await next(context);
 
