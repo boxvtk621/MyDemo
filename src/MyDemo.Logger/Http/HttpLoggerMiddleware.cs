@@ -3,11 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace MoDemo.Logger.Http
+namespace MyDemo.Logger.Http
 {
 	/// <inheritdoc />
 	public class HttpLoggerMiddleware : IMiddleware

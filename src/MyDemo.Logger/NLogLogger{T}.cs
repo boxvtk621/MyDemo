@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MoDemo.Logger
+namespace MyDemo.Logger
 {
 	/// <inheritdoc cref="NLogLogger"/>
 	public class NLogLogger<T> : NLogLogger, ILogger<T>

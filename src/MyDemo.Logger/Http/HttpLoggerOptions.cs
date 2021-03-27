@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MoDemo.Logger.Http
+namespace MyDemo.Logger.Http
 {
 	/// <summary>
 	/// Настройки протоколирования Http запросов.
