@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
+using NLog.Extensions.Logging;
 
 namespace MyDemo.Api
 {
@@ -27,6 +30,15 @@ namespace MyDemo.Api
 				.ConfigureWebHostDefaults(webBuilder =>
 				{
 					webBuilder.UseStartup<Startup>();
+				})
+				.ConfigureLogging((ctx, logging) =>
+				{
+					NLog.LogManager.Configuration = new NLogLoggingConfiguration(ctx.Configuration.GetSection("NLog"));
+
+					logging
+						.SetMinimumLevel(LogLevel.Trace)
+						.ClearProviders()
+						.AddNLog();
 				});
 	}
 }

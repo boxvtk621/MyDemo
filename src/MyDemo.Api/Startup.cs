@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MoDemo.Logger;
+using MoDemo.Logger.Http;
 
 using MyDemo.Api.Common;
 using MyDemo.Business.Common;
@@ -41,6 +43,8 @@ namespace MyDemo.Api
 		/// <param name="services"><see cref="IServiceCollection"/>.</param>
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.Configure<HttpLoggerOptions>(Configuration.GetSection("HttpLogger"));
+
 			services
 				.AddControllers(options => options.Filters.Add(new ApiExceptionFilter()))
 				.AddJsonOptions(options =>
@@ -48,6 +52,8 @@ namespace MyDemo.Api
 					options.JsonSerializerOptions.IgnoreNullValues = true;
 					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 				});
+			services.AddSingleton<ILoggerContext, MdlcLoggerContext>().AddTransient<ILogger>((Func<IServiceProvider, ILogger>)(provider => (ILogger)new NLogLogger(typeof(ILogger), provider.GetServices<ILoggerContext>()))).AddTransient(typeof(ILogger<>), typeof(NLogLogger<>));
+			services.AddSingleton<HttpLoggerMiddleware>();
 
 			services.AddBusinessServices();
 			services.AddSwaggerGen(c =>
@@ -77,6 +83,8 @@ namespace MyDemo.Api
 				app.UseSwagger();
 				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyDemo.Api v1"));
 			}
+
+			app.UseMiddleware<HttpLoggerMiddleware>();
 
 			app.UseHttpsRedirection();
 
