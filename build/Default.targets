@@ -6,5 +6,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Author>Ivan Korobeynikov</Author>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 </Project>
