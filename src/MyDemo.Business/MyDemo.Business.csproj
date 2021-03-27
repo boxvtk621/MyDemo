@@ -12,10 +12,14 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.3" />
     <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="Scrutor" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyDemo.Core\MyDemo.Core.csproj" />
     <ProjectReference Include="..\MyDemo.Logger\MyDemo.Logger.csproj" />
     <ProjectReference Include="..\MyDemo.StyleCop\MyDemo.StyleCop.csproj">
       <PrivateAssets>all</PrivateAssets>

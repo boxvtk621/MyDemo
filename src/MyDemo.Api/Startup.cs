@@ -55,7 +55,7 @@ namespace MyDemo.Api
 				});
 
 			services.AddCorrelationContext();
-			services.AddSingleton<ILoggerContext, MdlcLoggerContext>().AddTransient<ILogger>((Func<IServiceProvider, ILogger>)(provider => (ILogger)new NLogLogger(typeof(ILogger), provider.GetServices<ILoggerContext>()))).AddTransient(typeof(ILogger<>), typeof(NLogLogger<>));
+			services.AddSingleton<ILoggerContext, MdlcLoggerContext>().AddTransient((provider => (ILogger)new NLogLogger(typeof(ILogger), provider.GetServices<ILoggerContext>()))).AddTransient(typeof(ILogger<>), typeof(NLogLogger<>));
 			services.AddSingleton<HttpLoggerMiddleware>();
 
 			services.AddBusinessServices();
@@ -82,13 +82,13 @@ namespace MyDemo.Api
 		{
 			if (env.IsDevelopment())
 			{
+				app.UseMiddleware<HttpLoggerMiddleware>();
 				app.UseDeveloperExceptionPage();
 				app.UseSwagger();
 				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyDemo.Api v1"));
 			}
 
 			app.UseOperationContext();
-			app.UseMiddleware<HttpLoggerMiddleware>();
 
 			app.UseHttpsRedirection();
 
