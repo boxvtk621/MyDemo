@@ -91,7 +91,9 @@ namespace MoDemo.Logger.Http
 
 				await context.Response.Body.CopyToAsync(originalResponseStream);
 
-				var log = _log;
+				var log = _log
+					.WithProperty("HttpRequestHeaders", MergeHeaders(context.Request.Headers))
+					.WithProperty("HttpResponseHeaders", MergeHeaders(context.Response.Headers));
 
 				if (!string.IsNullOrEmpty(requestBodyAsString) && !string.IsNullOrEmpty(responseBodyAsString))
 				{
@@ -99,10 +101,7 @@ namespace MoDemo.Logger.Http
 						.WithProperty("HttpResponseContent", responseBodyAsString);
 				}
 
-				log
-					.WithProperty("HttpRequestHeaders", MergeHeaders(context.Request.Headers))
-					.WithProperty("HttpResponseHeaders", MergeHeaders(context.Response.Headers))
-					.Trace($"{context.Request.Method}, {context.Request.Path}");
+				log.Trace($"{context.Request.Method}, {context.Request.Path}");
 			}
 			finally
 			{
@@ -123,7 +122,7 @@ namespace MoDemo.Logger.Http
 				.Aggregate(list, (l, p) =>
 				{
 					var value = _options.SecureHeaders?.Count > 0 &&
-					            _options.SecureHeaders.Contains(p.Key)
+								_options.SecureHeaders.Contains(p.Key)
 						? SecureHeaderValue
 						: string.Join(",", p.Value);
 
