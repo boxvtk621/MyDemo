@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -47,6 +48,11 @@ namespace MyDemo.Api
 			services.Configure<HttpLoggerOptions>(Configuration.GetSection("HttpLogger"));
 
 			services
+				.Configure<FormOptions>(o => {
+					o.ValueLengthLimit = 1342177280;
+					o.MultipartBodyLengthLimit = 13421772800;
+					o.MemoryBufferThreshold = 13421772;
+				})
 				.AddControllers(options => options.Filters.Add(new ApiExceptionFilter()))
 				.AddJsonOptions(options =>
 				{

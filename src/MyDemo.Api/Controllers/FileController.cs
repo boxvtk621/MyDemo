@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using MyDemo.Business.Features.Download.Command;
+using MyDemo.Business.Features.Upload;
 
 namespace MyDemo.Api.Controllers
 {
@@ -36,5 +38,17 @@ namespace MyDemo.Api.Controllers
 		[HttpGet("download")]
 		public Task<FileStreamResult> Download([FromQuery] string linkFile, CancellationToken cancellationToken) =>
 			_mediator.Send(new DownloadForLink.Command { Link = linkFile }, cancellationToken);
+
+		/// <summary>
+		/// Загружает файл на диск.
+		/// </summary>
+		/// <param name="file"><see cref="IFormFile"/>.</param>
+		/// <param name="cancellationToken"><see cref="CancellationToken"/>.</param>
+		/// <returns></returns>
+		[HttpPost("upload")]
+		[DisableRequestSizeLimit]
+		public Task Upload(IFormFile file, CancellationToken cancellationToken) =>
+			_mediator.Send(new UploadCommand.Command { FileStream = file.OpenReadStream() }, cancellationToken);
+
 	}
 }
